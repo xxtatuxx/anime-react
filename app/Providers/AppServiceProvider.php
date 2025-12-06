@@ -23,13 +23,17 @@ use App\Observers\SeasonObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
-    public function register(): void
+   public function register(): void
     {
-        //
+        // 1. الحل الأول: الثقة برأس PROTO من الوكيل
+        Request::setTrustedProxies(['*'], Request::HEADER_X_FORWARDED_PROTO);
     }
 
     public function boot(): void
     {
+        // 2. الحل الثاني: الإجبار المطلق على HTTPS
+        // (تمت إزالة شرط الإنتاج لضمان التطبيق الفوري)
+        URL::forceScheme('https'); 
         JsonResource::withoutWrapping();
 
         // ✅ تسجيل Observers للكاش التلقائي
