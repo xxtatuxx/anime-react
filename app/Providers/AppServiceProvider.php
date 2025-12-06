@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Request; // ✅ (1) تمت الإضافة: هام جداً للـ Proxy
+use Illuminate\Support\Facades\URL; // ✅ (2) تمت الإضافة: لإجبار الـ HTTPS
 
 // Models
 use App\Models\Episode;
@@ -30,6 +32,20 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // ✅ (3) إصلاح مشكلة Mixed Content على Railway
+        // نطلب من لارافيل الثقة في البروكسي (Railway) واستخدام HTTPS للروابط
+        if($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
+
+        // إعداد الثقة في البروكسي لضمان قراءة الهيدر بشكل صحيح
+        Request::setTrustedProxies(
+            ['*'], 
+            Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_HOST | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO
+        );
+
+        // --- بقية الكود الخاص بك كما هو ---
+
         JsonResource::withoutWrapping();
 
         // ✅ تسجيل Observers للكاش التلقائي
