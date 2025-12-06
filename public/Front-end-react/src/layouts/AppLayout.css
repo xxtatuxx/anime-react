@@ -1,0 +1,9 @@
+.app-layout {
+    min-height: 100vh;
+}
+
+.app-main {
+    padding-top: 70px;
+    /* Header height */
+    min-height: calc(100vh - 70px);
+}
