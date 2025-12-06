@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        Request::setTrustedProxies(['*'], Request::HEADER_X_FORWARDED_PROTO);
+        //
     }
 
     public function boot(): void
