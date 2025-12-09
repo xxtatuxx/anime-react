@@ -1,4 +1,4 @@
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import AppLayout from './layouts/AppLayout';
 import HomePage from './pages/HomePage';
@@ -80,4 +80,3 @@ function App() {
 }
 
 export default App;
-
